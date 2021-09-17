@@ -1,0 +1,11 @@
+{
+  "Name": "BUILDCUBE",
+  "Path": "Parameters\\BUILDCUBE\\BuildCube.exe",
+  "Order": 9.1,
+  "DoRun": true,
+  "ReadOutput": true,
+  "Description": "Automates building cubemaps in-game",
+  "Warning": "",
+  "PresetDefault": false,
+  "BasisString": "$bsp$"
+}
