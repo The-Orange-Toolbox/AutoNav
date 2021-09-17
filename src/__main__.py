@@ -4,6 +4,8 @@ from datetime import datetime
 
 from _constants import *
 
+import valve.rcon
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description='Automates building cubemaps in-game.')
@@ -19,10 +21,15 @@ if __name__ == '__main__':
                                                  name=NAME,
                                                  date=BUILD_DATE))
     in_bsp = eval(args.input)
-    out_bsp = eval(args.output) or in_bsp
 
     try:
         initial_time = datetime.now()
+
+        server_address = ("127.0.1.1", 27015)
+        password = "asdasd"
+
+        with valve.rcon.RCON(server_address, password) as rcon:
+            print(rcon("echo Hello, world!"))
 
         elapsed_time = datetime.now() - initial_time
         elapsed_secs = elapsed_time.total_seconds()
