@@ -33,8 +33,9 @@ if __name__ == '__main__':
     gameDir = os.path.normpath(eval(args.game))
 
     try:
-        initial_time = datetime.now()    
-        nav_generate(eval(args.input), gameExe, eval(args.game), args.hijack, args.textmode)
+        initial_time = datetime.now()
+        nav_generate(eval(args.input), gameExe,
+                     eval(args.game), args.hijack, args.textmode)
         print('Generation complete!')
 
         elapsed_time = datetime.now() - initial_time
@@ -43,6 +44,6 @@ if __name__ == '__main__':
 
     except Exception as e:
         print('There is a problem with ' + NAME)
-        print('Please report issues here: ' + URL +'/issues')
+        print('Please report issues here: ' + URL + '/issues')
         traceback.print_exc()
         print(e)

@@ -4,9 +4,10 @@ import uuid
 import time
 import subprocess
 
+
 def nav_generate(mapName, gameExe, gameDir, hijack, textmode):
 
-    logName = mapName + "_nav.log";
+    logName = mapName + "_nav.log"
     logPath = os.path.join(gameDir, logName)
     passwd = str(uuid.uuid4())
 
@@ -38,13 +39,13 @@ def nav_generate(mapName, gameExe, gameDir, hijack, textmode):
 
     launch_params = [
         gameExe, '-game', gameDir, '-windowed', '-novid', '-nosound',
-        '-usercon', '+ip', '0.0.0.0', '+rcon_password', passwd, 
+        '-usercon', '+ip', '0.0.0.0', '+rcon_password', passwd,
         '+log', '0', '+sv_logflush', '1', '+map', mapName]
     hijack and launch_params.append('-hijack')
     textmode and launch_params.append('-textmode')
     subprocess.Popen(launch_params,
-            creationflags=subprocess.DETACHED_PROCESS | 
-            subprocess.CREATE_NEW_PROCESS_GROUP)
+                     creationflags=subprocess.DETACHED_PROCESS |
+                     subprocess.CREATE_NEW_PROCESS_GROUP)
 
     wait_for_rcon()
 
@@ -52,8 +53,8 @@ def nav_generate(mapName, gameExe, gameDir, hijack, textmode):
         print('\nGenerating Navigation Mesh...')
         cleanup_log(client)
         client.run("con_logfile", logName)
-        client.run("nav_generate")
         wait_for_log_exists()
+        client.run("nav_generate")
         wait_for_nav_completion()
         cleanup_log(client)
         if hijack:
