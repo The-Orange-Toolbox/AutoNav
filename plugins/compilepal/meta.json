@@ -1,11 +1,11 @@
 {
-  "Name": "BUILDCUBE",
-  "Path": "Parameters\\BUILDCUBE\\BuildCube.exe",
-  "Order": 9.1,
+  "Name": "RconNav", 
+  "Path": "Parameters\\RCONNAV\\RconNav.exe",
+  "Order": 8.1,
   "DoRun": true,
   "ReadOutput": true,
-  "Description": "Automates building cubemaps in-game",
-  "Warning": "",
+  "Description": "Automates nav mesh generation in-game via RCON",
+  "Warning": "Will not work with the game open unless you use the -hijack parameter",
   "PresetDefault": false,
-  "BasisString": "$bsp$"
+  "BasisString": "$map$ -exe $gameEXE$ -game $game$"
 }

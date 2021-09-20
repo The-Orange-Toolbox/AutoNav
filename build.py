@@ -7,7 +7,8 @@ from shutil import copyfile, copy, make_archive
 
 
 orgName = 'The Orange Toolbox'
-exeName = 'BuildCube'
+url = 'https://github.com/The-Orange-Toolbox/RconNav'
+exeName = 'RconNav'
 builddate = datetime.datetime.now().strftime('%b %d %Y')
 version = "1.0"
 distDir = './dist/' + exeName + '-v' + str(version)
@@ -19,6 +20,7 @@ with open('src/_constants.py', 'w') as f:
     f.write("NAME = \"{}\"\n".format(exeName))
     f.write("VERSION = \"{}\"\n".format(version))
     f.write("BUILD_DATE = \"{}\"\n".format(builddate))
+    f.write("URL = \"{}\"\n".format(url))
 
 args = ['src/__main__.py',
         '-p', 'src',
@@ -27,7 +29,7 @@ args = ['src/__main__.py',
         '--distpath', exeDir]
 
 # Build!
-PyInstaller.__main__.run(args + assets)
+PyInstaller.__main__.run(args)
 
 # Copy other bundle files
 copyfile('./README.md', distDir + '/readme.txt')

@@ -1,1 +1,18 @@
-[]
+[
+    {
+      "Name": "Hijack",
+      "Parameter": " --hijack",
+      "Description": "Hijack the current instance fo the game.",
+      "Value": null,
+      "CanHaveValue": false,
+      "Warning": "You must add -usercon to your launch options for this to work."
+    },
+    {
+      "Name": "Text Mode",
+      "Parameter": " --textmode",
+      "Description": "Runs the game client in text mode only.",
+      "Value": null,
+      "CanHaveValue": false,
+      "Warning": ""
+    }
+  ]
