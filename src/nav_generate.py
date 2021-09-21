@@ -3,12 +3,27 @@ import os
 import uuid
 import time
 import subprocess
+import psutil
 
 def nav_generate(mapName, gameExe, gameDir, hijack, textmode):
 
     logName = mapName + "_nav.log";
     logPath = os.path.join(gameDir, logName)
     passwd = str(uuid.uuid4())
+
+    def pre_flight():
+        # check if client is already open,
+        # check if it is fit for hijack,
+        # otherwise terminate process
+        process_name = gameExe.split('\\')[-1]
+        p = next((p for p in psutil.process_iter() if p.name() == process_name), None)
+        if p and '-usercon' in p.cmdline():
+            return True
+        elif p:
+            p.terminate()
+        return False
+
+    highjackable = pre_flight()
 
     def cleanup_log(client):
         client.run("con_logfile", '""')
@@ -40,7 +55,7 @@ def nav_generate(mapName, gameExe, gameDir, hijack, textmode):
         gameExe, '-game', gameDir, '-windowed', '-novid', '-nosound',
         '-usercon', '+ip', '0.0.0.0', '+rcon_password', passwd, 
         '+log', '0', '+sv_logflush', '1', '+map', mapName]
-    hijack and launch_params.append('-hijack')
+    hijack and highjackable and launch_params.append('-hijack')
     textmode and launch_params.append('-textmode')
     subprocess.Popen(launch_params,
             creationflags=subprocess.DETACHED_PROCESS | 
