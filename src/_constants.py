@@ -1,5 +1,5 @@
 ORGNAME = "The Orange Toolbox"
 NAME = "RconNav"
 VERSION = "1.0"
-BUILD_DATE = "Sep 20 2021"
+BUILD_DATE = "Sep 21 2021"
 URL = "https://github.com/The-Orange-Toolbox/RconNav"
