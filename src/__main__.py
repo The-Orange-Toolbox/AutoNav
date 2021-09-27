@@ -1,15 +1,14 @@
 import os
-import sys
 import argparse
-import traceback
-from datetime import datetime
-
-from valveexe import ValveExe
 
 from _constants import *
 
-def stdout(str):
-    print(str, end="\n", flush=True)
+from totcommon.logger import print_header
+from totcommon.updater import check_updates
+from totcommon.reporter import ErrorReporter
+from totcommon.stopwatch import StopWatch
+
+from nav_generate import nav_generate
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
@@ -36,9 +35,8 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    stdout('{org} - {name}.exe ({date})\n'.format(org=ORGNAME,
-                                                 name=NAME,
-                                                 date=BUILD_DATE))
+    print_header(ORGNAME, NAME, BUILD_DATE)
+    check_updates(NAME, VERSION, URL)
 
     if (args.steam):
         steamExe = os.path.normpath(eval(args.steam))
@@ -51,41 +49,6 @@ if __name__ == '__main__':
 
     mapName = eval(args.input)
 
-    try:
-        initial_time = datetime.now()
+    with ErrorReporter(NAME, URL), StopWatch():
+        nav_generate(mapName, gameExe, gameDir, steamExe, steamId)
 
-        valveExe = ValveExe(gameExe, gameDir, steamExe, steamId)
-        stdout('Launching game...')
-
-        valveExe.launch(['-windowed', '-novid', '-nosound', 
-                         '+sv_cheats', '1', '+map', mapName])
-        stdout('Waiting for map load...')
-
-        valveExe.logger.log_until('Redownloading all lightmaps|connected\.')
-
-        with valveExe as console:
-            stdout('Generating Navigation Mesh...')
-
-            console.run("nav_generate")
-            valveExe.logger.log_until("\.nav' saved\.")
-
-            if (valveExe.hijacked):
-                console.run("disconnect")
-            else:
-                console.run("quit")
-
-        del valveExe
-        stdout('Generation complete!')
-
-        elapsed_time = datetime.now() - initial_time
-        elapsed_secs = elapsed_time.total_seconds()
-        stdout('{:.1f} seconds elapsed'.format(elapsed_secs))
-
-    except Exception as e:
-        stdout('There is a problem with ' + NAME)
-        stdout('Please report issues here: ' + URL +'/issues')
-        traceback.print_exc()
-        sys.stdout.flush()
-        exit(1)
-
-    exit(0)
