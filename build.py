@@ -7,12 +7,13 @@ from shutil import copyfile, copy, make_archive
 
 
 orgName = 'The Orange Toolbox'
-url = 'https://github.com/The-Orange-Toolbox/RconNav'
-exeName = 'RconNav'
+url = 'https://github.com/The-Orange-Toolbox/AutoNav'
+exeName = 'AutoNav'
 builddate = datetime.datetime.now().strftime('%b %d %Y')
 version = "1.0"
 distDir = './dist/' + exeName + '-v' + str(version)
 exeDir = distDir + '/' + exeName
+iconPath = './icon/icon.ico'
 
 # Write version info into _constants.py resource file
 with open('src/_constants.py', 'w') as f:
@@ -26,7 +27,8 @@ args = ['src/__main__.py',
         '-p', 'src',
         '-n', exeName,
         '-F',
-        '--distpath', exeDir]
+        '--distpath', exeDir,
+        '--icon', iconPath]
 
 # Build!
 PyInstaller.__main__.run(args)

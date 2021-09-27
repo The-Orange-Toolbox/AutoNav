@@ -9,7 +9,7 @@ from _constants import *
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
-        description='Automates building cubemaps in-game.')
+        description='Automates nav mesh generation in-game.')
 
     parser.add_argument('input', metavar='path', type=ascii,
                         help='The path of the BSP to build.')

@@ -1,11 +1,11 @@
 {
-  "Name": "RconNav", 
-  "Path": "Parameters\\RCONNAV\\RconNav.exe",
+  "Name": "AutoNav", 
+  "Path": "Parameters\\AUTONAV\\AutoNav.exe",
   "Order": 8.1,
   "DoRun": true,
   "ReadOutput": true,
-  "Description": "Automates nav mesh generation in-game via RCON",
-  "Warning": "Will not work with the game open unless you use the -hijack parameter",
+  "Description": "Automates nav mesh generation in-game",
+  "Warning": "",
   "PresetDefault": false,
   "BasisString": "$map$ -exe $gameEXE$ -game $game$"
 }

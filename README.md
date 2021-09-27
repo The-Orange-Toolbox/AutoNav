@@ -1,5 +1,5 @@
-# BuildCube
+# AutoNav
 
-Automates building cubemaps in-game
+Automates nav mesh generation for Source Engine games
 
 (Currently in development)
