@@ -3,8 +3,9 @@ import argparse
 import traceback
 from datetime import datetime
 
+from valveexe import ValveExe
+
 from _constants import *
-from ValveExe import ValveExe
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
