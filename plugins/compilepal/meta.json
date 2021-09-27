@@ -1,11 +1,11 @@
 {
-  "Name": "AutoNav", 
+  "Name": "AUTONAV",
   "Path": "Parameters\\AUTONAV\\AutoNav.exe",
   "Order": 8.1,
   "DoRun": true,
   "ReadOutput": true,
   "Description": "Automates nav mesh generation in-game",
-  "Warning": "",
+  "Warning": "Does not support Left 4 Dead 1-2",
   "PresetDefault": false,
-  "BasisString": "$map$ -exe $gameEXE$ -game $game$"
+  "BasisString": "$map$ --exe $gameEXE$ --game $game$"
 }
