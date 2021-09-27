@@ -2,10 +2,11 @@ from valveexe import ValveExe
 from valveexe.console import RconConsole
 from totcommon.logger import stdout
 
+
 def nav_generate(mapName, gameExe, gameDir, steamExe, steamId):
     valveExe = ValveExe(gameExe, gameDir, steamExe, steamId)
     stdout('Launching game...')
-    valveExe.launch(['-windowed', '-novid', '-nosound', 
+    valveExe.launch(['-windowed', '-novid', '-nosound',
                      '+sv_cheats', '1', '+map', mapName])
 
     with valveExe as console:

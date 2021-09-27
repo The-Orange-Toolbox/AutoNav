@@ -24,7 +24,7 @@ if __name__ == '__main__':
                         metavar='path', type=ascii, default='',
                         help='The mod folder to be loaded')
 
-    parser.add_argument('-s', '--steam', metavar='path', type=ascii, 
+    parser.add_argument('-s', '--steam', metavar='path', type=ascii,
                         nargs='?', default=None, const=None,
                         help='Where the steam.exe is located')
     parser.add_argument('-a', '--appid',  metavar='N', type=int,
@@ -42,6 +42,7 @@ if __name__ == '__main__':
         steamExe = os.path.normpath(eval(args.steam))
     else:
         steamExe = None
+
     steamId = args.appid
 
     gameExe = os.path.normpath(eval(args.exe))
@@ -51,4 +52,3 @@ if __name__ == '__main__':
 
     with ErrorReporter(NAME, URL), StopWatch():
         nav_generate(mapName, gameExe, gameDir, steamExe, steamId)
-
