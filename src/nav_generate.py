@@ -1,3 +1,4 @@
+import time
 from valveexe import ValveExe
 from valveexe.console import RconConsole
 from totcommon.logger import stdout
@@ -20,10 +21,13 @@ def nav_generate(mapName, gameExe, gameDir, steamExe, steamId):
         console.run("nav_generate")
         valveExe.logger.log_until("\.nav' saved\.")
 
-        if (valveExe.hijacked):
+        time.sleep(1)
+
+        if valveExe.hijacked:
             console.run("disconnect")
-        else:
-            console.run("quit")
+        
+    if not valveExe.hijacked:
+        valveExe.quit()
 
     del valveExe
 

@@ -37,6 +37,7 @@ if __name__ == '__main__':
         mapName = eval(args.input)
         gameExe = os.path.normpath(eval(args.exe))
         gameDir = os.path.normpath(eval(args.game))
+        bspPath = os.path.join(gameDir, 'maps', mapName + '.bsp')
 
         if (args.steam):
             steamExe = os.path.normpath(eval(args.steam))
