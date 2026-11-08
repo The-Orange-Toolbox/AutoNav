@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "2.0.0",
+  "id": "autonav",
+  "version": "1.0.1",
+  "name": "AutoNav",
+  "description": "Automates nav mesh generation for Source Engine games during compile-time. Does not support Left 4 Dead 1/2; see readme for CS:GO usage.",
+  "category": "Post-Compile",
+  "kind": "exe",
+  "executable": { "value": "AutoNav.exe" },
+  "workspace": "game-maps",
+  "inputs": [
+    {
+      "id": "bsp",
+      "type": "BSP",
+      "required": true,
+      "description": "The compiled map. Gates scheduling (nav generation must run after the BSP is compiled and copied into the game's maps folder); the tool reads it via the live game, not off the command line."
+    }
+  ],
+  "outputs": [
+    {
+      "id": "nav",
+      "type": "File",
+      "description": "The generated .nav navigation mesh, written into the game's maps folder next to the .bsp.",
+      "harvest": { "strategy": "template", "value": "${game.mapsDir}/${param.mapname}.nav" }
+    }
+  ],
+  "arguments": [
+    {
+      "id": "map",
+      "name": "Map",
+      "type": "string",
+      "positional": true,
+      "required": true,
+      "promotable": false,
+      "defaultBinding": { "source": "dynamic", "value": { "kind": "value", "value": "${param.mapname}" } },
+      "description": "The name of the map to build, without extension."
+    },
+    {
+      "id": "exe",
+      "name": "Game Executable",
+      "type": "path",
+      "flag": "--exe",
+      "required": true,
+      "promotable": false,
+      "defaultBinding": { "source": "dynamic", "value": { "kind": "value", "value": "${game.gameExe}" } },
+      "description": "Where the game .exe is located."
+    },
+    {
+      "id": "game",
+      "name": "Game Directory",
+      "type": "path",
+      "flag": "--game",
+      "required": true,
+      "promotable": false,
+      "defaultBinding": { "source": "dynamic", "value": { "kind": "value", "value": "${game.gameDir}" } },
+      "description": "The mod folder to be loaded."
+    },
+    {
+      "id": "console",
+      "name": "Console mode",
+      "type": "enum",
+      "flag": "--console",
+      "enum": ["exec", "rcon", "auto"],
+      "default": "exec",
+      "promotable": false,
+      "description": "How console commands reach the game. \"exec\" relaunches it with -hijack +exec and is the default; \"rcon\" talks over the network and needs a listen server; \"auto\" picks by what the game supports. Stated rather than detected, so a run behaves the same every time.",
+      "warning": "CS:GO cannot be hijacked - use rcon or auto alongside --steam and --appid."
+    },
+    {
+      "id": "steam",
+      "name": "Steam Executable",
+      "type": "path",
+      "flag": "--steam",
+      "promotable": false,
+      "description": "Specify the steam.exe for a Steam-based game launch.",
+      "warning": "Required alongside Steam AppId for CS:GO. See readme for CS:GO usage."
+    },
+    {
+      "id": "appid",
+      "name": "Steam AppId",
+      "type": "int",
+      "flag": "--appid",
+      "promotable": false,
+      "description": "For use with --steam; specifies the Steam AppId for game launches."
+    }
+  ],
+  "concurrency": { "limit": 1, "group": "game-runtime" }
+}

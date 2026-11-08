@@ -4,6 +4,7 @@ import argparse
 from _constants import *
 
 from totcommon.executable import TOTExecutable
+from valveexe import CONSOLES, EXEC
 
 from nav_generate import nav_generate
 
@@ -28,6 +29,14 @@ if __name__ == '__main__':
                         nargs='?', default=None, const=None,
                         help='The steam AppId to be launched')
 
+    parser.add_argument('-c', '--console', metavar='MODE',
+                        choices=CONSOLES, default=EXEC,
+                        help='How to issue console commands to the game: '
+                             '"exec" (default) relaunches it with -hijack '
+                             '+exec, "rcon" talks to it over the network, '
+                             '"auto" picks by what the game supports. Stated '
+                             'rather than detected, so runs behave the same.')
+
     parser.add_argument('-v', '--version', action='version', version=VERSION)
 
     args = parser.parse_args()
@@ -46,4 +55,5 @@ if __name__ == '__main__':
 
         steamId = args.appid
 
-        nav_generate(mapName, gameExe, gameDir, steamExe, steamId)
+        nav_generate(mapName, gameExe, gameDir, steamExe, steamId,
+                     args.console)

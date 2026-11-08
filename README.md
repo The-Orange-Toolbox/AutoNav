@@ -26,4 +26,4 @@ The executable can be used standalone without any of the other files it is bundl
 Run the executable with `AutoNav --help` for complete information about its usage.
 
 ## CS:GO Caveats
-CSGO requires additional arguments in order to work. Make sure you include the --steamexe and --appid arguments with their appropriate values
+CSGO requires additional arguments in order to work. Make sure you include the --steam and --appid arguments with their appropriate values, and `--console rcon` (or `auto`): CS:GO cannot be hijacked, so the default `exec` console cannot reach it.
