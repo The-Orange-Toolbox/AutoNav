@@ -1,0 +1,78 @@
+/* The Orange Toolbox: shared look for every tool's documentation site.
+   Identical in every repository; see docs/tot_docs.py. */
+
+:root,
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color: #e8640c;
+  --md-primary-fg-color--light: #f2873f;
+  --md-primary-fg-color--dark: #b84d06;
+  --md-primary-bg-color: #ffffff;
+  --md-primary-bg-color--light: rgba(255, 255, 255, 0.7);
+  --md-accent-fg-color: #c25208;
+  --md-typeset-a-color: #b84d06;
+}
+
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: #e8640c;
+  --md-primary-fg-color--light: #f2873f;
+  --md-primary-fg-color--dark: #b84d06;
+  --md-accent-fg-color: #ff9a52;
+  --md-typeset-a-color: #ff9a52;
+  --md-default-bg-color: #17181c;
+}
+
+.md-header__title,
+.md-nav__title {
+  font-weight: 700;
+}
+
+/* The icon is orange, so it sits on a dark rounded tile rather than
+   straight on the orange header. */
+.md-header__button.md-logo img,
+.md-nav__button.md-logo img {
+  box-sizing: content-box;
+  height: 1.5rem;
+  width: auto;
+  padding: 0.25rem;
+  background: #1b1c20;
+  border-radius: 0.45rem;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
+}
+
+/* Reference tables: let them use the full width and keep flags unwrapped. */
+.md-typeset__scrollwrap,
+.md-typeset__table {
+  display: block;
+  width: 100%;
+}
+
+.md-typeset table:not([class]) {
+  display: table;
+  width: 100%;
+  font-size: 0.72rem;
+}
+
+.md-typeset table:not([class]) td:first-child code,
+.md-typeset table:not([class]) td:nth-child(2) code {
+  white-space: nowrap;
+}
+
+.md-typeset .md-button {
+  margin: 0 0.4rem 0.6rem 0;
+}
+
+/* The cross-links to the other tools are always the last nav section;
+   frame them so they read as "elsewhere", apart from this tool's pages.
+   Desktop only: below this width Material turns sections into drill-ins. */
+@media screen and (min-width: 76.25em) {
+  .md-nav--primary > .md-nav__list > .md-nav__item--section:last-child {
+    margin-top: 1.2em;
+    padding: 0.4em 0.6em 0.6em;
+    border: 1px solid var(--md-default-fg-color--lighter);
+    border-radius: 0.45rem;
+  }
+
+  .md-nav--primary > .md-nav__list > .md-nav__item--section:last-child > .md-nav__link {
+    margin-top: 0;
+  }
+}

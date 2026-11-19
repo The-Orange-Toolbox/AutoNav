@@ -107,6 +107,13 @@ venv.bak/
 *~
 *#
 
+# Editors / OS
+.vscode/
+.idea/
+Thumbs.db
+Desktop.ini
+
+# Maps / temp artifacts
 *.bak
 *.bsp
-
+*.tmp

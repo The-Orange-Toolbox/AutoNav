@@ -1,0 +1,6 @@
+# Documentation site only (python docs/tot_docs.py build). The tool's own
+# requirements.txt must be installed too: the command-line reference is read
+# from its argument parser.
+mkdocs==1.6.1
+mkdocs-material==9.5.49
+Pillow>=10

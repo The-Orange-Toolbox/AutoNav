@@ -1,0 +1,51 @@
+# Publishes the documentation website to GitHub Pages.
+# Shared, byte for byte, by every Orange Toolbox tool; see docs/tot_docs.py.
+#
+# One-time setup per repository: Settings > Pages > Build and deployment >
+# Source: "GitHub Actions".
+
+name: docs
+
+on:
+  push:
+    branches: [master]
+  release:
+    types: [published, edited]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: pip install -r requirements.txt -r docs/requirements.txt
+      - name: Build
+        run: python docs/tot_docs.py build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

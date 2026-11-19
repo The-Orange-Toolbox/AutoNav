@@ -1,2 +1,5 @@
 git+https://github.com/The-Orange-Toolbox/TOT-common
 valveexe>=0.1.5
+# Build/test only: validates plugins/vgct/AutoNav.vgct.json against the
+# VGCT schema. Not imported by the tool itself.
+jsonschema>=4

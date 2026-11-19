@@ -1,0 +1,161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vgct.dev/schema/exe-def.schema.json",
+  "title": "VGCT Executable Definition",
+  "type": "object",
+  "required": ["schemaVersion", "id", "version", "name"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "type": "string" },
+    "id": { "type": "string", "pattern": "^[a-zA-Z0-9_.-]+$" },
+    "version": { "type": "string" },
+    "name": { "type": "string" },
+    "description": { "type": "string" },
+    "category": { "type": "string" },
+    "kind": { "enum": ["exe", "native", "sink"] },
+    "native": { "type": "string" },
+    "executable": {
+      "type": "object",
+      "required": ["value"],
+      "additionalProperties": false,
+      "properties": { "value": { "type": "string" } }
+    },
+    "env": { "type": "object", "additionalProperties": { "type": "string" } },
+    "inputs": { "type": "array", "items": { "$ref": "#/$defs/portDef" } },
+    "outputs": { "type": "array", "items": { "$ref": "#/$defs/outputPortDef" } },
+    "arguments": { "type": "array", "items": { "$ref": "#/$defs/argumentDef" } },
+    "config": { "type": "array", "items": { "$ref": "#/$defs/configFieldDef" } },
+    "argv": { "type": "array", "items": { "type": "string" } },
+    "workspace": { "enum": ["sandbox", "game-maps"] },
+    "concurrency": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "limit": { "type": "number" },
+        "group": { "type": "string" }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "kind": { "const": "exe" } }, "required": ["kind"] },
+      "then": { "required": ["executable"] }
+    },
+    {
+      "if": { "not": { "required": ["kind"] } },
+      "then": { "required": ["executable"] }
+    }
+  ],
+  "$defs": {
+    "portType": {
+      "enum": ["VMF", "VMM", "BSP", "PRT", "File", "Dir", "String", "Int", "Number", "Bool", "Stream"]
+    },
+    "valueType": { "enum": ["bool", "int", "number", "string", "path", "enum"] },
+    "value": { "type": ["string", "number", "boolean", "null"] },
+    "portDef": {
+      "type": "object",
+      "required": ["id", "type"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "type": { "$ref": "#/$defs/portType" },
+        "required": { "type": "boolean" },
+        "description": { "type": "string" }
+      }
+    },
+    "outputPortDef": {
+      "type": "object",
+      "required": ["id", "type"],
+      "anyOf": [{ "required": ["harvest"] }, { "required": ["passthrough"] }],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "type": { "$ref": "#/$defs/portType" },
+        "description": { "type": "string" },
+        "optional": { "type": "boolean" },
+        "passthrough": {
+          "oneOf": [
+            { "type": "string" },
+            {
+              "type": "object",
+              "required": ["input"],
+              "additionalProperties": false,
+              "properties": {
+                "input": { "type": "string" },
+                "suffix": { "type": "string" },
+                "ext": { "type": "string" }
+              }
+            }
+          ]
+        },
+        "harvest": {
+          "type": "object",
+          "required": ["strategy"],
+          "properties": {
+            "strategy": { "enum": ["template", "stdout", "glob", "static"] },
+            "value": { "type": "string" },
+            "pattern": { "type": "string" }
+          }
+        }
+      }
+    },
+    "argumentDef": {
+      "type": "object",
+      "required": ["id", "type"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "type": { "$ref": "#/$defs/valueType" },
+        "pathKind": { "enum": ["file", "dir"] },
+        "flag": { "type": ["string", "null"] },
+        "positional": { "type": "boolean" },
+        "variadic": { "type": "boolean" },
+        "default": { "$ref": "#/$defs/value" },
+        "required": { "type": "boolean" },
+        "promotable": { "type": "boolean" },
+        "defaultBinding": { "$ref": "#/$defs/argumentBinding" },
+        "enum": { "type": "array", "items": { "type": "string" } },
+        "description": { "type": "string" },
+        "warning": { "type": "string" },
+        "compatibleGames": { "type": "array", "items": { "type": "number" } },
+        "incompatibleGames": { "type": "array", "items": { "type": "number" } }
+      }
+    },
+    "dynamic": {
+      "type": "object",
+      "required": ["kind"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": { "enum": ["value", "bind", "off"] },
+        "value": { "$ref": "#/$defs/value" },
+        "parameter": { "type": "string" },
+        "cases": { "type": "object", "additionalProperties": { "$ref": "#/$defs/dynamic" } }
+      }
+    },
+    "argumentBinding": {
+      "type": "object",
+      "required": ["source"],
+      "additionalProperties": false,
+      "properties": {
+        "source": { "enum": ["port", "dynamic"] },
+        "value": { "$ref": "#/$defs/dynamic" }
+      }
+    },
+    "configFieldDef": {
+      "type": "object",
+      "required": ["id", "type"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "type": { "$ref": "#/$defs/valueType" },
+        "pathKind": { "enum": ["file", "dir"] },
+        "default": { "$ref": "#/$defs/value" },
+        "enum": { "type": "array", "items": { "type": "string" } },
+        "description": { "type": "string" },
+        "multiline": { "type": "boolean" }
+      }
+    }
+  }
+}

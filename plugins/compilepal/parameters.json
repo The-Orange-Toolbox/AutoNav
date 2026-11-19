@@ -2,17 +2,25 @@
     {
         "Name": "SteamExe",
         "Parameter": " --steam",
-        "Description": "specify the steam exe for a steam based game launch.",
+        "Description": "path to steam.exe, for games that must be launched through steam. use together with AppId.",
         "Value": "",
         "CanHaveValue": true,
         "Warning": ""
-      },
-      {
+    },
+    {
         "Name": "AppId",
         "Parameter": " --appid",
-        "Description": "for use with --steam, specifies the steam appid for game launches.",
+        "Description": "the steam appid to launch. only used together with SteamExe.",
         "Value": "",
         "CanHaveValue": true,
         "Warning": ""
-      }
+    },
+    {
+        "Name": "Console",
+        "Parameter": " --console",
+        "Description": "how console commands reach the game: exec (default) relaunches it with -hijack, rcon talks to it over the network, auto picks by what the game supports.",
+        "Value": "",
+        "CanHaveValue": true,
+        "Warning": "a game that cannot be hijacked needs rcon or auto."
+    }
 ]
