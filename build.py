@@ -78,7 +78,8 @@ def write_sidecar(exe_name, version):
     dist_dir = os.path.join('dist', '{}-v{}'.format(exe_name, version))
     exe_dir = os.path.join(dist_dir, exe_name)
     with open(os.path.join(exe_dir, filename), 'w', encoding='utf-8') as f:
-        json.dump(definition, f, indent=2)
+        json.dump(definition, f, indent=2, ensure_ascii=False)
+        f.write('\n')
 
     try:
         os.remove(dist_dir + '.zip')

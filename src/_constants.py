@@ -1,5 +1,5 @@
 ORGNAME = "The Orange Toolbox"
 NAME = "AutoNav"
-VERSION = "1.0.1"
-BUILD_DATE = "Jul 11 2026"
+VERSION = "1.1.0"
+BUILD_DATE = "Nov 22 2026"
 URL = "https://github.com/The-Orange-Toolbox/AutoNav"
